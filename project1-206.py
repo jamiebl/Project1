@@ -49,11 +49,11 @@ def mySort(data,col):
 	sort_list = sorted(data, key = lambda val: val[col])
 	#empty_list = [val for val in sort_list if val["First"]]
 	grab_first_item = sort_list[0] #grab first item in list
-	grab_first_n = sort_list["First"]
-	grab_first_l = sort_list["Last"]
+	grab_first_n = str(grab_first_item["First"])
+	grab_first_l = str(grab_first_item["Last"])
 
-	#print (grab_first_item)
-	return (grab_first_n, grab_first_l)
+
+	return grab_first_n + " " + grab_first_l
 	pass
 
 
