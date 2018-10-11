@@ -1,4 +1,4 @@
-import os, pdb, csv
+import os, pdb, copy
 import filecmp
 from collections import Counter
 from dateutil.relativedelta import *
@@ -12,6 +12,7 @@ def getData(file):
 #the keys are from the first row in the data. and the values are each of the other rows
 	#pdb.set_trace()
 	in_file = open(file, "r")
+	next(in_file)
 	line = in_file.readline() #grab the first line
 	list_of_dict = [] # an empty list to append everything together at the end
 
@@ -52,7 +53,6 @@ def mySort(data,col):
 	grab_first_n = str(grab_first_item["First"])
 	grab_first_l = str(grab_first_item["Last"])
 
-
 	return grab_first_n + " " + grab_first_l
 	pass
 
@@ -70,12 +70,12 @@ def classSizes(data):
 	junior_count = 0
 	senior_count = 0
 
-	a = sorted(data, key = lambda col: col["Class"], reverse = True)
+	list_stu = sorted(data, key = lambda col: col["Class"], reverse = True)
 
-	senior_count = len([val for val in a if val["Class"] == 'Senior'])
-	jun_count = len([val for val in a if val["Class"] == 'Junior'])
-	so_count = len([val for val in a if val["Class"] == 'Sophomore'])
-	f_count = len([val for val in a if val["Class"] == 'Freshman'])
+	senior_count = len([val for val in list_stu if val["Class"] == 'Senior'])
+	jun_count = len([val for val in list_stu if val["Class"] == 'Junior'])
+	so_count = len([val for val in list_stu if val["Class"] == 'Sophomore'])
+	f_count = len([val for val in list_stu if val["Class"] == 'Freshman'])
 
 
 	list_tuple.append(("Senior", senior_count))
@@ -95,19 +95,17 @@ def findMonth(a):
 # Output: Return the month (1-12) that had the most births in the data
 
 	#Want just the DOB keys-successful
-	for value in a:
+	dif = copy.deepcopy(a)
+	for value in dif:
 		del value["Class"]
 		del value["Email"]
 		del value["First"]
 		del value["Last"]
 
 	#Now I have a list of the values from DOB
-	data_dob = [val["DOB"] for val in a]
-	del data_dob[0]
-	#data_mo.sort(key = lambda date: date.strptime(date, "%b/%d/%y"))
-	#String object
-	#string_date_mo = ' '.join(data_mo) #string object
-	#string_date_mo.splitlines() #string object
+	data_dob = [val["DOB"] for val in dif]
+	#del data_dob[0]
+
 	data_mo  = []
 
 	#List of months/days/years
@@ -134,36 +132,38 @@ def findMonth(a):
 	num = sorted(number_counter, key = number_counter.get, reverse = True)
 
 	#Just return the first
+	#print (num)
+	#print (number_counter)
 	top_1 = num[0]
 
 	return top_1
-	#returns 3, 11 as tuple unsure on how to sepr for just the value
-	#most_com_num = Counter(data_mo)
-	#return most_com_num.most_common(1)
+
 	pass
 
 def mySortPrint(a,col,fileName):
 #Similar to mySort, but instead of returning single
 #Student, the sorted data is saved to a csv file.
-# as fist,last,email
+# as first,last,email
 #Input: list of dictionaries, col (key) to sort by and output file name
 #Output: No return value, but the file is written
-	#f = open(fileName, "w")
-	#sort_list = sorted(a, key = lambda x: x[col])
 
-	#Have successful deleted the last two keys and values from the list 6-6
-	#for value in sort_list:
-	#	del value["Class"]
-	#	del value["DOB"]
+	#Sort list by keys
+	sort_list = sorted(a, key = lambda val : val[col])
 
-	#first_n = sort_list[0]
-	#last_n = sort_list[1]
-	#email = sort_list[2]
-	#f = open(fileName, "w")
-	#fieldnames = ["First", "Last", "Email"]
-	#write = csv.DictWriter(f, fieldnames = fieldnames)
-	#write.writeheader()
+	f = open(fileName, "w")
 
+	#b = [val for val in sort_list if val["First"] == "First" != sort_list]
+	#print(b)
+
+	for value in sort_list:
+		first = value["First"]
+		last = value["Last"]
+		email = value["Email"]
+		f.write(first + "," + last + "," + email + "\n")
+
+		#print(first + "," + last + "," + email)
+	f.close()
+	#print (a)
 
 
 
