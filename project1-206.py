@@ -1,5 +1,6 @@
 import os, pdb, csv
 import filecmp
+from collections import Counter
 from dateutil.relativedelta import *
 from datetime import date, datetime
 
@@ -109,17 +110,36 @@ def findMonth(a):
 	#string_date_mo.splitlines() #string object
 	data_mo  = []
 
+	#List of months/days/years
+	#Split at the "/" in order to get three cats
 	for str in data_dob:
 		value = str.split('/')
 		month = int(value[0])
-		day = value[1]
-		year = value[2]
+		day =   int(value[1])
+		year = int(value[2])
 
 		data_mo.append(month)
 
-	print (data_mo)
+	#make emp dict in order to hold the key(num) and val(freq)
+	number_counter = {}
+	for number in data_mo:
+		#if that number is currently in the dict, then do not Standard
+		#else increment before moving on to the next number
+		if number in number_counter:
+			number_counter[number] += 1
+		else:
+			number_counter[number] = 1
 
+	#sort using dict get function/ for values with the highest freq at the top
+	num = sorted(number_counter, key = number_counter.get, reverse = True)
 
+	#Just return the first
+	top_1 = num[0]
+
+	return top_1
+	#returns 3, 11 as tuple unsure on how to sepr for just the value
+	#most_com_num = Counter(data_mo)
+	#return most_com_num.most_common(1)
 	pass
 
 def mySortPrint(a,col,fileName):
