@@ -1,7 +1,7 @@
-import os, pdb
+import os, pdb, csv
 import filecmp
 from dateutil.relativedelta import *
-from datetime import date
+from datetime import date, datetime
 
 
 def getData(file):
@@ -47,8 +47,7 @@ def mySort(data,col):
 
 	#First sort list based on key
 	sort_list = sorted(data, key = lambda val: val[col])
-	#empty_list = [val for val in sort_list if val["First"]]
-	grab_first_item = sort_list[0] #grab first item in list
+	grab_first_item = sort_list[0] #grab first line/item/dictionary in list
 	grab_first_n = str(grab_first_item["First"])
 	grab_first_l = str(grab_first_item["Last"])
 
@@ -71,20 +70,6 @@ def classSizes(data):
 	senior_count = 0
 
 	a = sorted(data, key = lambda col: col["Class"], reverse = True)
-	#for word in data:
-	#	if word["Class"] == "Freshman":
-	#		fresh_count = fresh_count + 1
-	#	elif: word["Class"] == "Sophomore":
-	#		sopho_count = sopho_count + 1
-	#	elif: word["Class"] == "Junior":
-	#		junior_count = junior_count + 1
-	#	else:
-	#		senior_count + 1
-
-	#f_count = data.count({"Class": "Freshman"})
-	#so_count = data.count({"Class": "Sophomore"})
-	#jun_count = data.count({"Class": "Junior"})
-	#sen_count = data.count({"Class": "Senior"})
 
 	senior_count = len([val for val in a if val["Class"] == 'Senior'])
 	jun_count = len([val for val in a if val["Class"] == 'Junior'])
@@ -108,10 +93,32 @@ def findMonth(a):
 # Input: list of dictionaries
 # Output: Return the month (1-12) that had the most births in the data
 
-	#Want just the DOB keys
-	#no_f = list(filter(lambda val: val["First"] in a))
-	#split_dob = [val for val in a if val['DOB']]
-	#print (no_f)
+	#Want just the DOB keys-successful
+	for value in a:
+		del value["Class"]
+		del value["Email"]
+		del value["First"]
+		del value["Last"]
+
+	#Now I have a list of the values from DOB
+	data_dob = [val["DOB"] for val in a]
+	del data_dob[0]
+	#data_mo.sort(key = lambda date: date.strptime(date, "%b/%d/%y"))
+	#String object
+	#string_date_mo = ' '.join(data_mo) #string object
+	#string_date_mo.splitlines() #string object
+	data_mo  = []
+
+	for str in data_dob:
+		value = str.split('/')
+		month = int(value[0])
+		day = value[1]
+		year = value[2]
+
+		data_mo.append(month)
+
+	print (data_mo)
+
 
 	pass
 
@@ -121,21 +128,23 @@ def mySortPrint(a,col,fileName):
 # as fist,last,email
 #Input: list of dictionaries, col (key) to sort by and output file name
 #Output: No return value, but the file is written
+	#f = open(fileName, "w")
+	#sort_list = sorted(a, key = lambda x: x[col])
 
-
-	#for val in a:
-	#	del a["Class"]
-
-	#for val in a:
-	#	del a["DOB"]
-
-	sort_list = sorted(a, key = lambda x: x[col])
+	#Have successful deleted the last two keys and values from the list 6-6
 	#for value in sort_list:
+	#	del value["Class"]
+	#	del value["DOB"]
 
-	f = open(fileName, "w")
-	f.write(str(sort_list))
-	f.close()
-	#print (sort_list)
+	#first_n = sort_list[0]
+	#last_n = sort_list[1]
+	#email = sort_list[2]
+	#f = open(fileName, "w")
+	#fieldnames = ["First", "Last", "Email"]
+	#write = csv.DictWriter(f, fieldnames = fieldnames)
+	#write.writeheader()
+
+
 
 
 
