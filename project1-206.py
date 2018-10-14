@@ -57,7 +57,7 @@ def getData(file):
 	in_file.close()
 	return list_of_dict
 
-	pass
+	#pass
 
 def mySort(data,col):
 # Sort based on key/column
@@ -81,7 +81,7 @@ def mySort(data,col):
 
 
 	return grab_first_n + " " + grab_first_l
-	pass
+	#pass
 
 
 def classSizes(data):
@@ -125,7 +125,7 @@ def classSizes(data):
 
 	return (sort_list)
 
-	pass
+	#pass
 
 
 def findMonth(a):
@@ -183,7 +183,7 @@ def findMonth(a):
 
 	return top_1
 
-	pass
+	#pass
 
 def mySortPrint(a,col,fileName):
 #Similar to mySort, but instead of returning single
@@ -209,10 +209,7 @@ def mySortPrint(a,col,fileName):
 		f.write(first + "," + last + "," + email + "\n")
 	f.close()
 
-
-
-
-	pass
+	#pass
 
 def findAge(a):
 # def findAge(a):
@@ -269,8 +266,7 @@ def findAge(a):
 
 	return(int(sum_age/round(amount)))
 
-
-	pass
+	#pass
 
 
 ################################################################
